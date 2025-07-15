@@ -1,6 +1,7 @@
 # JetBrains IDE files
 .idea/
 *.iml
+../../.idea/
 
 # Other files you want to ignore (optional)
 *.jpg
