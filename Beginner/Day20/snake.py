@@ -1,7 +1,6 @@
 from turtle import Turtle
 STARTING_POSITION  = [(0, 0), (-20 , 0 ), (-40 , 0)]
 MOVE_DISTANCE = 20
-
 class Snake:
 	def __init__(self):
 		self.segments = []
