@@ -1,75 +1,56 @@
+import os
 import requests
-from datetime import  datetime
+from datetime import datetime
+from dotenv import load_dotenv
 
-from jsonpointer import resolve_pointer
+# Load environment variables
+load_dotenv()
 
-USERNAME ="arafatalijama"
-TOKEN = "akakakakakaka"
-GRAPH_ID = "graph1"
-DATe = datetime.now()
+USERNAME = os.getenv("USERNAME")
+TOKEN = os.getenv("TOKEN")
+GRAPH_ID = os.getenv("GRAPH_ID")
+
 pixela_end_point = "https://pixe.la/v1/users"
+
+# Create user
 user_params = {
-    "token" : TOKEN,
-    "username" : USERNAME,
-    "agreeTermsOfService" : "yes",
-    "notMinor" : "yes",
-
+    "token": TOKEN,
+    "username": USERNAME,
+    "agreeTermsOfService": "yes",
+    "notMinor": "yes",
 }
-# response = requests.post(url= pixela_end_point , json=user_params)
-# print(response.text)
 
+# Create graph
 graph_endpoint = f"{pixela_end_point}/{USERNAME}/graphs"
-
 graph_config = {
-    "id" : GRAPH_ID,
-    "name" : "cycling",
-    "unit" : "km",
-    "type" : "float",
-    "color" : "shibafu",
+    "id": GRAPH_ID,
+    "name": "cycling",
+    "unit": "km",
+    "type": "float",
+    "color": "shibafu",
 }
 
 headers = {
-    "X-USER-TOKEN" : TOKEN
+    "X-USER-TOKEN": TOKEN
 }
-# response = requests.post(url=graph_endpoint, json=graph_config, headers = headers)
-# print(response.text)
 
+# Value endpoint
 value_endpoint = f"{pixela_end_point}/{USERNAME}/graphs/{GRAPH_ID}"
 
-today = datetime.now()
-
+today = datetime.now().strftime("%Y%m%d")
 value_config = {
-    "date": datetime.now().strftime("%Y%m%d"),
-    "quantity" : "9",
+    "date": today,
+    "quantity": "9",
 }
 
-# response = requests.post(url=value_endpoint, json=value_config, headers=headers)
-# print(response.text)
-
-update_endpoint = f"{pixela_end_point}/{USERNAME}/graphs/{GRAPH_ID}/{today.strftime("%Y%m%d")}"
+# Update endpoint
+update_endpoint = f"{value_endpoint}/{today}"
 new_pixela_data = {
-    "quantity" : "12"
+    "quantity": "12"
 }
-# response= requests.put(url=update_endpoint,json=new_pixela_data,headers=headers)
-# print(response.text)
 
+# Delete endpoint
+delete_endpoint = f"{value_endpoint}/{today}"
 
-delete_endpoint = f"{pixela_end_point}/{USERNAME}/graphs/{GRAPH_ID}/{today.strftime("%Y%m%d")}"
-
-response = requests.delete(url=delete_endpoint,headers=headers)
+response = requests.delete(url=delete_endpoint, headers=headers)
 print(response.text)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
